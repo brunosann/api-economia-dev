@@ -40,8 +40,13 @@ class Validation
 	//--------------------------------------------------------------------
 	// Rules
 	//--------------------------------------------------------------------
+	public $signin = [
+		'email' => ['label' => 'Email', 'rules' => 'required|valid_email'],
+		'password' => ['label' => 'Senha', 'rules' => 'required|min_length[8]'],
+	];
+
 	public $signup = [
-		'name' => ['label' => 'Nome', 'rules' => 'required'],
+		'name' => ['label' => 'Nome', 'rules' => 'required|alpha_space'],
 		'email' => ['label' => 'Email', 'rules' => 'required|valid_email'],
 		'password' => ['label' => 'Senha', 'rules' => 'required|min_length[8]'],
 		'co_password' => ['label' => 'Confirme Senha', 'rules' => 'required|min_length[8]|matches[password]'],

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\Config\Factories;
+use App\Libraries\HandleJWT;
 
 class UserController extends BaseController
 {
@@ -18,20 +19,42 @@ class UserController extends BaseController
 
   public function signin()
   {
-    return $this->response->setJSON(['msg' => 'success']);
-  }
-
-  public function signup()
-  {
-    $json = $this->request->getJSON(true);
-    $checkFields = $this->valid->run($json, 'signup');
+    $json = $this->request->getJSON();
+    $checkFields = $this->valid->run(get_object_vars($json), 'signin');
     $errors = $this->valid->getErrors();
 
     if (!$checkFields) return $this->response->setJSON(['data' => [], 'error' => $errors]);
 
-    $json['password'] = password_hash($json['password'], PASSWORD_DEFAULT);
-    $this->userModel->insert($json);
+    $user = $this->userModel->where('email', $json->email)->first();
 
-    return $this->response->setJSON(['data' => [], 'error' => $errors]);
+    if (!$user) return $this->response->setJSON(['data' => [], 'error' => 'Email ou senha inválidos']);
+    $verifPassword = password_verify($json->password, $user->password);
+    if (!$verifPassword) return $this->response->setJSON(['data' => [], 'error' => 'Email ou senha inválidos']);
+
+    $name = $user->name;
+    $token = HandleJWT::createToken(['name' => $name, 'id' => $user->id]);
+    $data = ['name' => $name, 'token' => $token];
+
+    return $this->response->setJSON(['data' => $data, 'error' => []]);
+  }
+
+  public function signup()
+  {
+    $json = $this->request->getJSON();
+    $checkFields = $this->valid->run(get_object_vars($json), 'signup');
+    $errors = $this->valid->getErrors();
+
+    if (!$checkFields) return $this->response->setJSON(['data' => [], 'error' => $errors]);
+
+    $json->password = password_hash($json->password, PASSWORD_DEFAULT);
+    $id = $this->userModel->insert($json);
+
+    if (!$id) return $this->response->setJSON(['data' => [], 'error' => $this->userModel->errors()]);
+
+    $name = $json->name;
+    $token = HandleJWT::createToken(['name' => $name, 'id' => $id]);
+    $data = ['name' => $name, 'token' => $token];
+
+    return $this->response->setJSON(['data' => $data, 'error' => []]);
   }
 }

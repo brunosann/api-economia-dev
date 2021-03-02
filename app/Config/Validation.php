@@ -51,4 +51,9 @@ class Validation
 		'password' => ['label' => 'Senha', 'rules' => 'required|min_length[8]'],
 		'co_password' => ['label' => 'Confirme Senha', 'rules' => 'required|min_length[8]|matches[password]'],
 	];
+
+	public $revenue = [
+		'value' => ['label' => 'Valor', 'rules' => 'required|decimal'],
+		'description' => ['label' => 'Descrição', 'rules' => 'required|string'],
+	];
 }

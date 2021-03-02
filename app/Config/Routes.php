@@ -38,6 +38,11 @@ $routes->group('user', function ($routes) {
 	$routes->post('signup', 'UserController::signup');
 });
 
+$routes->group('revenue', function ($routes) {
+	$routes->post('/', 'RevenueController::add');
+	$routes->get('/', 'RevenueController::getAll');
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

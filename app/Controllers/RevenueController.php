@@ -41,6 +41,8 @@ class RevenueController extends BaseController
 		$month = $getMonth ? $getMonth : date('m');
 		$year = $getYear ? $getYear : date('Y');
 		$data = $this->revenueModel->where(['MONTH(created_at)' => $month, 'YEAR(created_at)' => $year])->findAll();
-		return $this->response->setJSON(['data' => $data, 'error' => []]);
+
+		$a = $this->request->userData;
+		return $this->response->setJSON(['data' => $data, 'error' => [$a]]);
 	}
 }

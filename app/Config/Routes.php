@@ -43,6 +43,12 @@ $routes->group('revenue', function ($routes) {
 	$routes->get('/', 'RevenueController::getAll');
 });
 
+$routes->group('expense', function ($routes) {
+	$routes->post('/', 'ExpenseController::add');
+	$routes->post('fixed', 'ExpenseController::fixed');
+	$routes->get('/', 'ExpenseController::getAll');
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

@@ -56,4 +56,15 @@ class Validation
 		'value' => ['label' => 'Valor', 'rules' => 'required|decimal'],
 		'description' => ['label' => 'Descrição', 'rules' => 'required|string'],
 	];
+
+	public $expense = [
+		'value' => ['label' => 'Valor', 'rules' => 'required|decimal'],
+		'description' => ['label' => 'Descrição', 'rules' => 'required|string'],
+		'id_category' => ['label' => 'Categoria', 'rules' => 'required|numeric'],
+	];
+
+	public $expenseFixed = [
+		'value' => ['label' => 'Valor', 'rules' => 'required|decimal'],
+		'expense' => ['label' => 'Despesa', 'rules' => 'required|string'],
+	];
 }

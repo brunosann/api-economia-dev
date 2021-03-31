@@ -27,6 +27,11 @@ class FixedExpense extends Migration
 				"type" => "int",
 				"constraint" => "11"
 			],
+			"id_category" => [
+				"type" => "int",
+				"constraint" => "11",
+				"default" => 4,
+			],
 			"created_at" => [
 				"type" => "DATETIME",
 			],
